@@ -1,7 +1,7 @@
 {
-  "/icon.svg/route": "app/icon.svg/route.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/not-found": "app/not-found.js",
-  "/(public)/about/page": "app/(public)/about/page.js",
-  "/(public)/page": "app/(public)/page.js"
+  "/api/comments/route": "app/api/comments/route.js",
+  "/api/posts/[id]/view/route": "app/api/posts/[id]/view/route.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/(public)/posts/[slug]/page": "app/(public)/posts/[slug]/page.js"
 }
