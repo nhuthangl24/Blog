@@ -1,0 +1,7 @@
+{
+  "/icon.svg/route": "app/icon.svg/route.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/not-found": "app/not-found.js",
+  "/(public)/about/page": "app/(public)/about/page.js",
+  "/(public)/page": "app/(public)/page.js"
+}
