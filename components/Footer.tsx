@@ -29,7 +29,7 @@ export default function Footer() {
           </a>
           . {t("footer.sourceCode")}{" "}
           <a
-            href="https://github.com/nhuthangl24"
+            href="https://github.com/nhuthangl24/Blog"
             target="_blank"
             rel="noreferrer"
             className="font-medium underline underline-offset-4"

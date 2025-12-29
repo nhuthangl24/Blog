@@ -68,8 +68,7 @@ export default function Navbar() {
         {/* Mobile Logo */}
         <div className="flex md:hidden flex-1">
           <Link href="/" className="flex items-center space-x-2">
-            <ShieldAlert className="h-6 w-6" />
-            <span className="font-bold">Như Thắng Blog</span>
+            <span className="font-bold">NhuThangL24</span>
           </Link>
         </div>
 
