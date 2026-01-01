@@ -14,10 +14,12 @@ export async function GET(
       return new NextResponse("Image not found", { status: 404 });
     }
 
-    return new NextResponse(media.data, {
+    const buffer = Buffer.from(media.data);
+
+    return new NextResponse(buffer, {
       headers: {
         "Content-Type": media.contentType,
-        "Content-Length": media.size.toString(),
+        "Content-Length": buffer.length.toString(),
         "Cache-Control": "public, max-age=31536000, immutable",
       },
     });

@@ -107,6 +107,7 @@ export default async function PostPage({
               fill
               className="object-cover"
               priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
             />
           </div>
         )}

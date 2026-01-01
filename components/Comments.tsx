@@ -26,14 +26,23 @@ export default function Comments({ postId }: { postId: string }) {
   const { data: session } = useSession();
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
 
   useEffect(() => {
     fetch(`/api/comments?postId=${postId}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch comments");
+        return res.json();
+      })
       .then((data) => {
         setComments(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setError("Failed to load comments. Please try again later.");
         setLoading(false);
       });
   }, [postId]);
@@ -94,12 +103,12 @@ export default function Comments({ postId }: { postId: string }) {
       );
 
     return (
-      <div className={`mb-4 ${depth > 0 ? "ml-8 border-l-2 pl-4" : ""}`}>
+      <div className={`mb-4 ${depth > 0 ? "ml-2 md:ml-8 border-l-2 pl-2 md:pl-4" : ""}`}>
         <Card className={`${isPending ? "opacity-60" : ""}`}>
-          <CardHeader className="p-4 pb-2">
+          <CardHeader className="p-3 md:p-4 pb-2">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="font-semibold flex items-center gap-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="font-semibold flex items-center gap-1 text-sm md:text-base">
                   {comment.author}
                   {comment.isAdmin ? (
                     <Badge
@@ -197,6 +206,14 @@ export default function Comments({ postId }: { postId: string }) {
   };
 
   const rootComments = comments.filter((c) => !c.parentId);
+
+  if (error) {
+    return (
+      <div className="mt-12 border-t pt-8">
+        <div className="text-red-500 text-center py-4">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="mt-12 border-t pt-8">
