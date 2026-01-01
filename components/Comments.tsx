@@ -7,7 +7,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
-import { Loader2, MessageSquare, Reply, Shield, User, Crown } from "lucide-react";
+import {
+  Loader2,
+  MessageSquare,
+  Reply,
+  Shield,
+  User,
+  Crown,
+  Trash2,
+  Eye,
+  EyeOff,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useSession } from "next-auth/react";
 
@@ -29,8 +41,15 @@ export default function Comments({ postId }: { postId: string }) {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
+  
+  // Root comments pagination
+  const [visibleRootCount, setVisibleRootCount] = useState(2);
 
   useEffect(() => {
+    fetchComments();
+  }, [postId]);
+
+  const fetchComments = () => {
     fetch(`/api/comments?postId=${postId}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch comments");
@@ -45,7 +64,7 @@ export default function Comments({ postId }: { postId: string }) {
         setError("Failed to load comments. Please try again later.");
         setLoading(false);
       });
-  }, [postId]);
+  };
 
   async function handleSubmit(
     e: React.FormEvent<HTMLFormElement>,
@@ -55,8 +74,6 @@ export default function Comments({ postId }: { postId: string }) {
     setSubmitting(true);
     const formData = new FormData(e.currentTarget);
 
-    // Get author from form data (user input)
-    // If empty, fallback to session name or Anonymous
     const authorInput = formData.get("author")?.toString().trim();
     const authorName = authorInput || session?.user?.name || "Anonymous";
 
@@ -87,6 +104,38 @@ export default function Comments({ postId }: { postId: string }) {
     }
   }
 
+  const handleDelete = async (commentId: string) => {
+    if (!window.confirm("Are you sure you want to delete this comment?")) return;
+    try {
+      const res = await fetch(`/api/comments/${commentId}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setComments((prev) => prev.filter((c) => c._id !== commentId));
+      }
+    } catch (error) {
+      console.error("Failed to delete comment", error);
+    }
+  };
+
+  const handleToggleVisibility = async (comment: Comment) => {
+    const newStatus = comment.status === "approved" ? "rejected" : "approved";
+    try {
+      const res = await fetch(`/api/comments/${comment._id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      if (res.ok) {
+        setComments((prev) =>
+          prev.map((c) => (c._id === comment._id ? { ...c, status: newStatus } : c))
+        );
+      }
+    } catch (error) {
+      console.error("Failed to update comment status", error);
+    }
+  };
+
   const CommentItem = ({
     comment,
     depth = 0,
@@ -94,7 +143,11 @@ export default function Comments({ postId }: { postId: string }) {
     comment: Comment;
     depth?: number;
   }) => {
+    const [visibleReplyCount, setVisibleReplyCount] = useState(0);
     const isPending = comment.status === "pending";
+    const isRejected = comment.status === "rejected";
+    const isAdminUser = session?.user?.role === "admin";
+
     const replies = comments
       .filter((c) => String(c.parentId) === String(comment._id))
       .sort(
@@ -102,9 +155,12 @@ export default function Comments({ postId }: { postId: string }) {
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       );
 
+    const visibleReplies = replies.slice(0, visibleReplyCount);
+    const hasMoreReplies = replies.length > visibleReplyCount;
+
     return (
       <div className={`mb-4 ${depth > 0 ? "ml-2 md:ml-8 border-l-2 pl-2 md:pl-4" : ""}`}>
-        <Card className={`${isPending ? "opacity-60" : ""}`}>
+        <Card className={`${isPending || isRejected ? "opacity-60" : ""} ${isRejected ? "bg-red-50 dark:bg-red-900/10" : ""}`}>
           <CardHeader className="p-3 md:p-4 pb-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 flex-wrap">
@@ -134,19 +190,49 @@ export default function Comments({ postId }: { postId: string }) {
                     Pending Approval
                   </Badge>
                 )}
+                {isRejected && isAdminUser && (
+                   <Badge variant="destructive">Hidden</Badge>
+                )}
               </div>
-              {!isPending && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() =>
-                    setReplyingTo(replyingTo === comment._id ? null : comment._id)
-                  }
-                >
-                  <Reply className="w-4 h-4 mr-1" />{" "}
-                  {t("comments.reply") || "Reply"}
-                </Button>
-              )}
+              
+              <div className="flex items-center gap-2">
+                {!isPending && !isRejected && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() =>
+                      setReplyingTo(replyingTo === comment._id ? null : comment._id)
+                    }
+                  >
+                    <Reply className="w-4 h-4 mr-1" />{" "}
+                    {t("comments.reply") || "Reply"}
+                  </Button>
+                )}
+                
+                {isAdminUser && (
+                  <>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                      onClick={() => handleToggleVisibility(comment)}
+                      title={isRejected ? "Unhide" : "Hide"}
+                    >
+                      {isRejected ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </Button>
+                    
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-100 dark:hover:bg-red-900/20"
+                      onClick={() => handleDelete(comment._id)}
+                      title="Delete"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </>
+                )}
+              </div>
             </div>
           </CardHeader>
           <CardContent className="p-4 pt-0">
@@ -198,14 +284,43 @@ export default function Comments({ postId }: { postId: string }) {
           </CardContent>
         </Card>
 
-        {replies.map((reply) => (
+        {visibleReplies.map((reply) => (
           <CommentItem key={reply._id} comment={reply} depth={depth + 1} />
         ))}
+        
+        {replies.length > 0 && (
+            <div className="mt-2 ml-2">
+                {hasMoreReplies ? (
+                    <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => setVisibleReplyCount(prev => prev + 5)}
+                        className="text-xs text-muted-foreground"
+                    >
+                        <ChevronDown className="w-3 h-3 mr-1" /> 
+                        {visibleReplyCount === 0 
+                            ? `Show ${replies.length} replies` 
+                            : `Show more replies (${replies.length - visibleReplyCount} remaining)`}
+                    </Button>
+                ) : (
+                     <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => setVisibleReplyCount(0)}
+                        className="text-xs text-muted-foreground"
+                    >
+                        <ChevronUp className="w-3 h-3 mr-1" /> Hide replies
+                    </Button>
+                )}
+            </div>
+        )}
       </div>
     );
   };
 
   const rootComments = comments.filter((c) => !c.parentId);
+  const visibleRootComments = rootComments.slice(0, visibleRootCount);
+  const hasMoreRootComments = rootComments.length > visibleRootCount;
 
   if (error) {
     return (
@@ -256,9 +371,31 @@ export default function Comments({ postId }: { postId: string }) {
         ) : comments.length === 0 ? (
           <p className="text-muted-foreground">{t("comments.noComments")}</p>
         ) : (
-          rootComments.map((comment) => (
-            <CommentItem key={comment._id} comment={comment} />
-          ))
+          <>
+            {visibleRootComments.map((comment) => (
+                <CommentItem key={comment._id} comment={comment} />
+            ))}
+            
+            {rootComments.length > 2 && (
+                <div className="flex justify-center mt-4">
+                    {hasMoreRootComments ? (
+                        <Button 
+                            variant="outline" 
+                            onClick={() => setVisibleRootCount(prev => prev + 5)}
+                        >
+                            Show more comments
+                        </Button>
+                    ) : (
+                        <Button 
+                            variant="outline" 
+                            onClick={() => setVisibleRootCount(2)}
+                        >
+                            Show less
+                        </Button>
+                    )}
+                </div>
+            )}
+          </>
         )}
       </div>
     </div>
