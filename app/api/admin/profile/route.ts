@@ -15,13 +15,6 @@ export async function PUT(req: Request) {
     const body = await req.json();
     const { name, email, currentPassword, newPassword } = body;
 
-    if (!currentPassword) {
-      return NextResponse.json(
-        { error: "Current password is required" },
-        { status: 400 }
-      );
-    }
-
     await connectDB();
     const user = await User.findOne({ email: session.user.email });
 
@@ -29,13 +22,25 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Verify current password
-    const isValid = await bcrypt.compare(currentPassword, user.passwordHash);
-    if (!isValid) {
-      return NextResponse.json(
-        { error: "Invalid current password" },
-        { status: 400 }
-      );
+    // Check if sensitive fields are being updated
+    const isSensitiveUpdate = !!newPassword || (email && email !== user.email);
+
+    if (isSensitiveUpdate) {
+      if (!currentPassword) {
+        return NextResponse.json(
+          { error: "Current password is required to change email or password" },
+          { status: 400 }
+        );
+      }
+
+      // Verify current password
+      const isValid = await bcrypt.compare(currentPassword, user.passwordHash);
+      if (!isValid) {
+        return NextResponse.json(
+          { error: "Invalid current password" },
+          { status: 400 }
+        );
+      }
     }
 
     // Update fields

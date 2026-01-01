@@ -37,7 +37,7 @@ export default function ResumeContent({ groupedItems, personalInfo }: any) {
   ];
 
   return (
-    <div className="container max-w-4xl py-10 space-y-10">
+    <div className="container max-w-4xl py-10 space-y-10 px-4 md:px-0">
       <div className="space-y-6 text-center">
         {personalInfo?.avatar ? (
           <img

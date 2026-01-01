@@ -54,6 +54,8 @@ const translations = {
     "comments.contentPlaceholder": "Share your thoughts...",
     "comments.noComments":
       "No comments yet. Be the first to share your thoughts!",
+    "comments.reply": "Reply",
+    "comments.replyPlaceholder": "Write a reply...",
     "resume.experience": "Experience",
     "resume.education": "Education",
     "resume.skills": "Skills",
@@ -105,6 +107,8 @@ const translations = {
     "comments.contentPlaceholder": "Chia sẻ suy nghĩ của bạn...",
     "comments.noComments":
       "Chưa có bình luận nào. Hãy là người đầu tiên chia sẻ suy nghĩ của bạn!",
+    "comments.reply": "Trả lời",
+    "comments.replyPlaceholder": "Viết câu trả lời...",
     "resume.experience": "Kinh nghiệm",
     "resume.education": "Học vấn",
     "resume.skills": "Kỹ năng",
@@ -152,6 +156,8 @@ const translations = {
     "comments.name": "姓名",
     "comments.namePlaceholder": "你的名字",
     "comments.content": "评论",
+    "comments.reply": "回复",
+    "comments.replyPlaceholder": "写下回复...",
     "comments.contentPlaceholder": "分享你的想法...",
     "comments.noComments": "暂无评论。成为第一个分享想法的人！",
     "resume.experience": "工作经历",

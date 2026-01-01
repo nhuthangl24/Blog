@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,7 +9,8 @@ import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 export default function ProfilePage() {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -40,9 +42,26 @@ export default function ProfilePage() {
         throw new Error(result.error || "Failed to update profile");
       }
 
+      // Update session with new data
+      await update({
+        ...session,
+        user: {
+          ...session?.user,
+          name: data.name,
+          email: data.email,
+        },
+      });
+
+      
+      // Clear password fields only
+      const form = e.target as HTMLFormElement;
+      (form.elements.namedItem("currentPassword") as HTMLInputElement).value = "";
+      (form.elements.namedItem("newPassword") as HTMLInputElement).value = "";
+
+      // Refresh server components to update navbar
+      router.refresh();
+      
       setMessage("Profile updated successfully");
-      // Clear password fields
-      (e.target as HTMLFormElement).reset();
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -89,8 +108,7 @@ export default function ProfilePage() {
                   <Input
                     name="currentPassword"
                     type="password"
-                    placeholder="Required to make changes"
-                    required
+                    placeholder="Required only for email/password changes"
                   />
                 </div>
                 <div className="grid gap-2">
