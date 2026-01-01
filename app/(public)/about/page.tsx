@@ -3,6 +3,8 @@ import Resume from "@/models/Resume";
 import PersonalInfo from "@/models/PersonalInfo";
 import ResumeContent from "@/components/ResumeContent";
 
+export const dynamic = "force-dynamic";
+
 async function getResumeItems() {
   await connectDB();
   const items = await Resume.find({ isVisible: true })
