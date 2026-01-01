@@ -213,6 +213,9 @@ export default async function PostPage({
               </div>
             )}
 
+            {/* Mobile Ad (Sidebar content) */}
+            <AdUnit position="sidebar" className="lg:hidden mb-8" />
+
             <Comments postId={post._id} />
           </div>
 

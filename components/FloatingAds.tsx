@@ -25,7 +25,7 @@ export default function FloatingAds() {
     <>
       {/* Left Ad */}
       {hasLeft && (
-        <div className="fixed left-2 top-1/2 -translate-y-1/2 z-40 hidden 2xl:flex flex-col gap-2">
+        <div className="fixed left-0 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-2 origin-left scale-75 xl:scale-100 xl:left-2 transition-transform">
             <div className="relative group">
                 <Button
                     variant="secondary"
@@ -46,7 +46,7 @@ export default function FloatingAds() {
 
       {/* Right Ad */}
       {hasRight && (
-        <div className="fixed right-2 top-1/2 -translate-y-1/2 z-40 hidden 2xl:flex flex-col gap-2">
+        <div className="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-2 origin-right scale-75 xl:scale-100 xl:right-2 transition-transform">
             <div className="relative group">
                 <Button
                     variant="secondary"
