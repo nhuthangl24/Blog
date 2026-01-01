@@ -9,8 +9,22 @@ import SeasonalTheme from "@/components/SeasonalTheme";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXTAUTH_URL || "http://localhost:3000"),
   title: "Nhuthangl24 Blog",
   description: "A professional security blog for CVEs, PoCs, and writeups.",
+  openGraph: {
+    title: "Nhuthangl24 Blog",
+    description: "A professional security blog for CVEs, PoCs, and writeups.",
+    url: "/",
+    siteName: "Nhuthangl24 Blog",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nhuthangl24 Blog",
+    description: "A professional security blog for CVEs, PoCs, and writeups.",
+  },
 };
 
 export default function RootLayout({
