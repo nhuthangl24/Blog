@@ -61,6 +61,7 @@ interface Comment {
   createdAt: string;
   status: string;
   parentId?: string;
+  isAdmin?: boolean;
   postId:
     | {
         _id: string;

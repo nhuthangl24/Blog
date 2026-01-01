@@ -194,8 +194,6 @@ export default function Comments({ postId }: { postId: string }) {
         ))}
       </div>
     );
-    (c) => !c.parentId || c.parentId === null
-  
   };
 
   const rootComments = comments.filter((c) => !c.parentId);
