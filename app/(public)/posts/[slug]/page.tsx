@@ -22,6 +22,7 @@ import Comments from "@/components/Comments";
 import PostHeader from "@/components/PostHeader";
 import CVEInfo from "@/components/CVEInfo";
 import PostContentSwitcher from "@/components/PostContentSwitcher";
+import AdUnit from "@/components/AdUnit";
 
 async function getPost(slug: string) {
   await connectDB();
@@ -217,8 +218,9 @@ export default async function PostPage({
 
           {/* Sidebar TOC */}
           <div className="hidden lg:block lg:col-span-3">
-            <div className="sticky top-24">
+            <div className="sticky top-24 space-y-8">
               <TableOfContents />
+              <AdUnit position="sidebar" />
             </div>
           </div>
         </div>

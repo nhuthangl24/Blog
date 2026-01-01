@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Menu, X, LayoutDashboard, FileText, FlaskConical, Image as ImageIcon, MessageSquare, Briefcase, User, Ban } from "lucide-react";
+import { Menu, X, LayoutDashboard, FileText, FlaskConical, Image as ImageIcon, MessageSquare, Briefcase, User, Ban, Settings } from "lucide-react";
 import { ModeToggle } from "@/components/ThemeToggle";
 import LogoutButton from "@/components/admin/LogoutButton";
 import { cn } from "@/lib/utils";
@@ -23,8 +23,8 @@ export default function AdminNavbar({ userEmail }: AdminNavbarProps) {
     { href: "/admin/labs", label: "Labs", icon: FlaskConical },
     { href: "/admin/media", label: "Media", icon: ImageIcon },
     { href: "/admin/comments", label: "Comments", icon: MessageSquare },
-    { href: "/admin/blacklist", label: "Blacklist", icon: Ban },
     { href: "/admin/resume", label: "Resume", icon: Briefcase },
+    { href: "/admin/settings", label: "Settings", icon: Settings },
   ];
 
   return (

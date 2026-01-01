@@ -82,10 +82,25 @@ const config = {
             height: "0",
           },
         },
+        fall: {
+          "0%": { transform: "translateY(-10vh) rotate(0deg)", opacity: "1" },
+          "100%": { transform: "translateY(100vh) rotate(360deg)", opacity: "0" },
+        },
+        "spin-slow": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
+        swing: {
+          "0%, 100%": { transform: "rotate(-5deg)" },
+          "50%": { transform: "rotate(5deg)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        fall: "fall 10s linear infinite",
+        "spin-slow": "spin-slow 10s linear infinite",
+        swing: "swing 3s ease-in-out infinite",
       },
     },
   },
