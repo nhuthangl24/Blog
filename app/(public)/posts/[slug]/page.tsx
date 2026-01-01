@@ -83,7 +83,13 @@ export async function generateMetadata({
     };
   }
 
-  const ogImage = post.coverImage || "/og-image.png";
+  let ogImage = post.coverImage;
+  
+  if (!ogImage) {
+    const ogUrl = new URL(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/og`);
+    ogUrl.searchParams.set('title', post.title);
+    ogImage = ogUrl.toString();
+  }
 
   return {
     title: post.title,
