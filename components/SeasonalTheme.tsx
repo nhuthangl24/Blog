@@ -25,7 +25,7 @@ export default function SeasonalTheme() {
   // If type is 'auto', calculate season. Otherwise use manual 'mode'.
   // Fallback to 'manual' if type is missing (backward compatibility)
   const type = (themeConfig as any).type || 'manual';
-  const manualMode = themeConfig.mode as Season || 'default';
+  const manualMode = (themeConfig as any).mode as Season || 'default';
   
   const [mode, setMode] = useState<Season>("default");
   const [items, setItems] = useState<Array<{ id: number; left: string; delay: string; duration: string; type: string }>>([]);
