@@ -7,10 +7,36 @@ const ITEM_COUNT = 30;
 
 type Season = "tet" | "spring" | "summer" | "autumn" | "winter" | "default";
 
+function getAutoSeason(): Season {
+  const month = new Date().getMonth() + 1; // 1-12
+  
+  // Simple approximation
+  if (month >= 3 && month <= 5) return "spring";
+  if (month >= 6 && month <= 8) return "summer";
+  if (month >= 9 && month <= 11) return "autumn";
+  return "winter"; // 12, 1, 2
+}
+
 export default function SeasonalTheme() {
   const { settings } = useSettings();
-  const mode = settings?.theme?.mode as Season;
+  const themeConfig = settings?.theme || {};
+  
+  // Determine effective mode
+  // If type is 'auto', calculate season. Otherwise use manual 'mode'.
+  // Fallback to 'manual' if type is missing (backward compatibility)
+  const type = (themeConfig as any).type || 'manual';
+  const manualMode = themeConfig.mode as Season || 'default';
+  
+  const [mode, setMode] = useState<Season>("default");
   const [items, setItems] = useState<Array<{ id: number; left: string; delay: string; duration: string; type: string }>>([]);
+
+  useEffect(() => {
+    let effectiveMode = manualMode;
+    if (type === 'auto') {
+      effectiveMode = getAutoSeason();
+    }
+    setMode(effectiveMode);
+  }, [type, manualMode]);
 
   useEffect(() => {
     // Reset classes

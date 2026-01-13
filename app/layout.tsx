@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import Providers from "@/components/Providers";
 import NextTopLoader from "nextjs-toploader";
 import SeasonalTheme from "@/components/SeasonalTheme";
+import LockdownManager from "@/components/LockdownManager";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -48,6 +49,7 @@ export default function RootLayout({
         />
         <Providers>
           <SeasonalTheme />
+          <LockdownManager />
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

@@ -36,29 +36,71 @@ export default function Navbar() {
 
         {/* Desktop Logo & Nav */}
         <div className="mr-4 hidden md:flex">
-          <Link href="/" className="mr-6 flex items-center space-x-2 relative group">
+          <Link
+            href="/"
+            className="mr-6 flex items-center space-x-2 relative group"
+          >
             <span className="hidden font-bold sm:inline-block relative">
               NhuThangL24
               {isTetOrSpring && (
                 <div className="absolute -bottom-3 -right-10 w-20 h-12 pointer-events-none animate-pulse">
-                  <svg viewBox="0 0 80 50" className="w-full h-full drop-shadow-sm overflow-visible">
+                  <svg
+                    viewBox="0 0 80 50"
+                    className="w-full h-full drop-shadow-sm overflow-visible"
+                  >
                     {/* Main Branch */}
-                    <path d="M0,50 Q30,40 50,20 T80,5" fill="none" stroke="#5D4037" strokeWidth="2.5" strokeLinecap="round" />
+                    <path
+                      d="M0,50 Q30,40 50,20 T80,5"
+                      fill="none"
+                      stroke="#5D4037"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
                     {/* Secondary Branches */}
-                    <path d="M40,30 Q50,25 60,35" fill="none" stroke="#5D4037" strokeWidth="1.5" strokeLinecap="round" />
-                    <path d="M20,45 Q25,35 20,25" fill="none" stroke="#5D4037" strokeWidth="1.5" strokeLinecap="round" />
-                    
+                    <path
+                      d="M40,30 Q50,25 60,35"
+                      fill="none"
+                      stroke="#5D4037"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M20,45 Q25,35 20,25"
+                      fill="none"
+                      stroke="#5D4037"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
                     {/* Leaves */}
-                    <path d="M50,20 Q55,15 52,10" fill="none" stroke="#4CAF50" strokeWidth="1.5" />
-                    <path d="M30,35 Q35,30 32,25" fill="none" stroke="#4CAF50" strokeWidth="1.5" />
-                    <path d="M60,35 Q65,30 68,32" fill="none" stroke="#4CAF50" strokeWidth="1.5" />
-
+                    <path
+                      d="M50,20 Q55,15 52,10"
+                      fill="none"
+                      stroke="#4CAF50"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M30,35 Q35,30 32,25"
+                      fill="none"
+                      stroke="#4CAF50"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M60,35 Q65,30 68,32"
+                      fill="none"
+                      stroke="#4CAF50"
+                      strokeWidth="1.5"
+                    />
                     {/* Flowers */}
-                    <circle cx="50" cy="20" r="5" fill="#FF69B4" /> <circle cx="50" cy="20" r="2" fill="#FF1493" />
-                    <circle cx="80" cy="5" r="4" fill="#FF69B4" /> <circle cx="80" cy="5" r="1.5" fill="#FF1493" />
-                    <circle cx="20" cy="45" r="4" fill="#FF69B4" /> <circle cx="20" cy="45" r="1.5" fill="#FF1493" />
-                    <circle cx="60" cy="35" r="3.5" fill="#FF69B4" /> <circle cx="60" cy="35" r="1.2" fill="#FF1493" />
-                    <circle cx="20" cy="25" r="3" fill="#FF69B4" /> <circle cx="20" cy="25" r="1" fill="#FF1493" />
+                    <circle cx="50" cy="20" r="5" fill="#FF69B4" />{" "}
+                    <circle cx="50" cy="20" r="2" fill="#FF1493" />
+                    <circle cx="80" cy="5" r="4" fill="#FF69B4" />{" "}
+                    <circle cx="80" cy="5" r="1.5" fill="#FF1493" />
+                    <circle cx="20" cy="45" r="4" fill="#FF69B4" />{" "}
+                    <circle cx="20" cy="45" r="1.5" fill="#FF1493" />
+                    <circle cx="60" cy="35" r="3.5" fill="#FF69B4" />{" "}
+                    <circle cx="60" cy="35" r="1.2" fill="#FF1493" />
+                    <circle cx="20" cy="25" r="3" fill="#FF69B4" />{" "}
+                    <circle cx="20" cy="25" r="1" fill="#FF1493" />
                     <circle cx="35" cy="35" r="2.5" fill="#FF69B4" />
                     <circle cx="70" cy="15" r="2.5" fill="#FF69B4" />
                     <circle cx="10" cy="48" r="2" fill="#FF69B4" />
@@ -92,6 +134,14 @@ export default function Navbar() {
             >
               {t("nav.about")}
             </Link>
+            {settings?.features?.tetCountdown && (
+              <Link
+                href="/countdown/tet"
+                className="transition-colors hover:text-foreground/80 text-foreground/60"
+              >
+                Countdown Tết
+              </Link>
+            )}
           </nav>
         </div>
 
@@ -102,24 +152,63 @@ export default function Navbar() {
               NhuThangL24
               {isTetOrSpring && (
                 <div className="absolute -bottom-3 -right-10 w-20 h-12 pointer-events-none animate-pulse">
-                  <svg viewBox="0 0 80 50" className="w-full h-full drop-shadow-sm overflow-visible">
+                  <svg
+                    viewBox="0 0 80 50"
+                    className="w-full h-full drop-shadow-sm overflow-visible"
+                  >
                     {/* Main Branch */}
-                    <path d="M0,50 Q30,40 50,20 T80,5" fill="none" stroke="#5D4037" strokeWidth="2.5" strokeLinecap="round" />
+                    <path
+                      d="M0,50 Q30,40 50,20 T80,5"
+                      fill="none"
+                      stroke="#5D4037"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
                     {/* Secondary Branches */}
-                    <path d="M40,30 Q50,25 60,35" fill="none" stroke="#5D4037" strokeWidth="1.5" strokeLinecap="round" />
-                    <path d="M20,45 Q25,35 20,25" fill="none" stroke="#5D4037" strokeWidth="1.5" strokeLinecap="round" />
-                    
+                    <path
+                      d="M40,30 Q50,25 60,35"
+                      fill="none"
+                      stroke="#5D4037"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M20,45 Q25,35 20,25"
+                      fill="none"
+                      stroke="#5D4037"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
                     {/* Leaves */}
-                    <path d="M50,20 Q55,15 52,10" fill="none" stroke="#4CAF50" strokeWidth="1.5" />
-                    <path d="M30,35 Q35,30 32,25" fill="none" stroke="#4CAF50" strokeWidth="1.5" />
-                    <path d="M60,35 Q65,30 68,32" fill="none" stroke="#4CAF50" strokeWidth="1.5" />
-
+                    <path
+                      d="M50,20 Q55,15 52,10"
+                      fill="none"
+                      stroke="#4CAF50"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M30,35 Q35,30 32,25"
+                      fill="none"
+                      stroke="#4CAF50"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M60,35 Q65,30 68,32"
+                      fill="none"
+                      stroke="#4CAF50"
+                      strokeWidth="1.5"
+                    />
                     {/* Flowers */}
-                    <circle cx="50" cy="20" r="5" fill="#FF69B4" /> <circle cx="50" cy="20" r="2" fill="#FF1493" />
-                    <circle cx="80" cy="5" r="4" fill="#FF69B4" /> <circle cx="80" cy="5" r="1.5" fill="#FF1493" />
-                    <circle cx="20" cy="45" r="4" fill="#FF69B4" /> <circle cx="20" cy="45" r="1.5" fill="#FF1493" />
-                    <circle cx="60" cy="35" r="3.5" fill="#FF69B4" /> <circle cx="60" cy="35" r="1.2" fill="#FF1493" />
-                    <circle cx="20" cy="25" r="3" fill="#FF69B4" /> <circle cx="20" cy="25" r="1" fill="#FF1493" />
+                    <circle cx="50" cy="20" r="5" fill="#FF69B4" />{" "}
+                    <circle cx="50" cy="20" r="2" fill="#FF1493" />
+                    <circle cx="80" cy="5" r="4" fill="#FF69B4" />{" "}
+                    <circle cx="80" cy="5" r="1.5" fill="#FF1493" />
+                    <circle cx="20" cy="45" r="4" fill="#FF69B4" />{" "}
+                    <circle cx="20" cy="45" r="1.5" fill="#FF1493" />
+                    <circle cx="60" cy="35" r="3.5" fill="#FF69B4" />{" "}
+                    <circle cx="60" cy="35" r="1.2" fill="#FF1493" />
+                    <circle cx="20" cy="25" r="3" fill="#FF69B4" />{" "}
+                    <circle cx="20" cy="25" r="1" fill="#FF1493" />
                     <circle cx="35" cy="35" r="2.5" fill="#FF69B4" />
                     <circle cx="70" cy="15" r="2.5" fill="#FF69B4" />
                     <circle cx="10" cy="48" r="2" fill="#FF69B4" />
@@ -176,6 +265,14 @@ export default function Navbar() {
             >
               {t("nav.about")}
             </Link>
+            {settings?.features?.tetCountdown && (
+              <Link
+                href="/countdown/tet"
+                className="text-sm font-medium transition-colors hover:text-foreground/80 "
+              >
+                Countdown Tết
+              </Link>
+            )}
           </nav>
         </div>
       )}

@@ -16,6 +16,17 @@ interface Settings {
     mode: string;
     allowUserToggle: boolean;
   };
+  features?: {
+    tetCountdown: boolean;
+    tetDate?: string;
+    tetTitle?: string;
+    tetGreeting?: string;
+    lockdown?: {
+      enabled: boolean;
+      startBeforeMinutes: number; // Minutes before Tet to start locking
+      endAfterMinutes: number;   // Minutes after Tet to return to normal
+    };
+  };
 }
 
 interface SettingsContextType {
